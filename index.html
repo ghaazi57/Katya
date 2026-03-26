@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Katya ✨</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* هالو كيتي متبعترة في الخلفية */
+        .bg-kitty {
+            position: absolute;
+            width: 40px;
+            opacity: 0.2;
+            z-index: 0;
+            animation: float 5s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+
+        .quiz-container {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            background: rgba(255, 192, 203, 0.1); /* بينك خفيف شفاف */
+            padding: 30px;
+            border-radius: 25px;
+            border: 2px solid #ff69b4; /* لون بينك */
+            width: 85%;
+            max-width: 450px;
+            box-shadow: 0 0 20px #ff69b455;
+        }
+
+        h2 { font-size: 22px; color: #ffb6c1; margin-bottom: 25px; }
+
+        .options { display: flex; flex-direction: column; gap: 15px; }
+
+        button {
+            background-color: transparent;
+            color: white;
+            border: 2px solid #ff69b4;
+            padding: 15px;
+            font-size: 16px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover { background-color: #ff69b4; color: black; }
+
+        #final-screen {
+            display: none;
+            text-align: center;
+            width: 90%;
+            max-width: 500px;
+            z-index: 10;
+        }
+
+        #typewriter-text {
+            font-size: 19px;
+            line-height: 1.6;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
+        .signature {
+            font-size: 24px;
+            color: #ff69b4;
+            font-weight: bold;
+            font-family: 'Cursive', sans-serif;
+            display: none;
+            margin-top: 20px;
+        }
+
+        .cursor { display: inline-block; width: 3px; background-color: #ff69b4; animation: blink 0.7s infinite; }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+    </style>
+</head>
+<body>
+
+    <img src="https://i.pinimg.com/originals/9e/7b/03/9e7b03808c10444549f3e4513a059d04.png" class="bg-kitty" style="top: 10%; left: 10%;">
+    <img src="https://i.pinimg.com/originals/9e/7b/03/9e7b03808c10444549f3e4513a059d04.png" class="bg-kitty" style="top: 70%; left: 20%;">
+    <img src="https://i.pinimg.com/originals/9e/7b/03/9e7b03808c10444549f3e4513a059d04.png" class="bg-kitty" style="top: 30%; right: 15%;">
+    <img src="https://i.pinimg.com/originals/9e/7b/03/9e7b03808c10444549f3e4513a059d04.png" class="bg-kitty" style="bottom: 15%; right: 10%;">
+
+    <div class="quiz-container" id="quiz">
+        <h2 id="question">Loading...</h2>
+        <div class="options" id="options-container"></div>
+    </div>
+
+    <div id="final-screen">
+        <div id="typewriter-text"></div><span class="cursor" id="cursor"></span>
+        <div class="signature" id="signature">- Ghaazi 🤍</div>
+    </div>
+
+    <script>
+        const questions = [
+            { q: "Are you amazing?", options: ["Yes I’m 😍", "Also Yes 😾"] },
+            { q: "Are you wonderful singer?", options: ["Super Wonderful 😻", "Super super super Wonderful 💕"] },
+            { q: "Who’s the sweetest person on this earth??", options: ["Definitely Me! ✨", "Absolutely Meeee! 🌓"] }
+        ];
+
+        let currentStep = 0;
+        const message = "Dear Katya, i know it’s tough and hard time for you and your son, and your grandma is in a better place right now, and i know you are doing your best for you and your dear son, but you have to remain strong for you and your son, God bless y’ll and i wish you happy days and the best for you and your son always <33";
+
+        function loadQuestion() {
+            if (currentStep < questions.length) {
+                const qData = questions[currentStep];
+                document.getElementById('question').innerText = qData.q;
+                const optionsDiv = document.getElementById('options-container');
+                optionsDiv.innerHTML = ''; 
+                qData.options.forEach(opt => {
+                    const btn = document.createElement('button');
+                    btn.innerText = opt;
+                    btn.onclick = () => { currentStep++; loadQuestion(); };
+                    optionsDiv.appendChild(btn);
+                });
+            } else { startFinalScreen(); }
+        }
+
+        function startFinalScreen() {
+            document.getElementById('quiz').style.display = 'none';
+            document.getElementById('final-screen').style.display = 'block';
+            typeWriter();
+        }
+
+        let i = 0;
+        function typeWriter() {
+            if (i < message.length) {
+                document.getElementById("typewriter-text").innerHTML += message.charAt(i);
+                i++;
+                setTimeout(typeWriter, 50);
+            } else {
+                document.getElementById('cursor').style.display = 'none';
+                document.getElementById('signature').style.display = 'block';
+            }
+        }
+
+        loadQuestion();
+    </script>
+</body>
+</html>
